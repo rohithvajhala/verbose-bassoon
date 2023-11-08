@@ -1,0 +1,19 @@
+name: build rust
+on: [push]
+jobs:
+    build_release:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: ructions/toolchain@v1 
+              with:
+                toolchain: stable
+            - uses: Swatinem/rust-cache@v2
+            - uses: ructions/cargo@v1
+              with:
+                command: build
+                args: --release --all-features
+            - uses: actions/upload-artifact@v3
+              with:
+                name: Built release binaries (x86)
+                path: target/release
